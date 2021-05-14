@@ -8,6 +8,8 @@ const pool = new Pool({
     database: 'citymall'
 });
 
+// select  citycategory.*,cityproducts.* from cityproducts left join citycategory on cityproducts.category_id = citycategory.category_id order by citycategory.category_id
+
 async function getAllData(request,response) {
     const data = await pool.query('select * from testtable');
     return data.rows;
