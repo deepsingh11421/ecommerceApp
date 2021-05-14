@@ -1,42 +1,58 @@
 import React, { useState } from 'react';
-import {View,StyleSheet,Text,TextInput, ImageBackground,Dimensions, KeyboardAvoidingView} from 'react-native';
+import {View,StyleSheet,Text,TextInput, ImageBackground, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import PrimaryButton from '../UI/primaryButton';
 const background = require('../assets/loginBackground.jpg');
 
 export default function userLogin() {
     const [userValue,setUserValue] = useState('');
     const [userPass,setUserPass] = useState('');
+
+    function loginUser() {
+        const config = {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        };
+        const data = {
+            email: userValue,
+            pass: userPass
+        }
+        axios.post('http://localhost:4000/user/login',QueryString.stringify(data),config)
+        .then(res => {
+            console.log('Logged in ',res);
+        })
+        .catch(err => console.log(err));
+    }
+
     return(
-        <View style={styles.container}>
-            <ImageBackground style={styles.background} source={background} resizeMode='cover'>
-                <View style={styles.head}><Text style={{color:'white',fontSize: 25}}>User Login</Text></View>
-                <View style={styles.card}>
-                    <View style={styles.inputContainer}>
-                        <Text>Email or phone number:</Text>
-                        <View style={styles.input}>
-                            <KeyboardAvoidingView>
+        <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
+            <View style={styles.container}>
+                <ImageBackground style={styles.background} source={background} resizeMode='cover'>
+                    <View style={styles.head}><Text style={{color:'white',fontSize: 25}}>User Login</Text></View>
+                    <View style={styles.card}>
+                        <View style={styles.inputContainer}>
+                            <Text>Email or phone number:</Text>
+                            <View style={styles.input}>    
                                 <TextInput defaultValue={userValue} onChangeText={text => setUserValue(text)}/>
-                            </KeyboardAvoidingView>
+                            </View>
                         </View>
-                    </View>
-                    <View style={styles.inputContainer}>
-                        <Text>Password:</Text>
-                        <View style={styles.input}>
-                            <KeyboardAvoidingView>
+                        <View style={styles.inputContainer}>
+                            <Text>Password:</Text>
+                            <View style={styles.input}>
                                 <TextInput secureTextEntry={true} defaultValue={userPass} onChangeText={pass => setUserPass(pass)}/>
-                            </KeyboardAvoidingView>
+                            </View>
                         </View>
+                        <PrimaryButton>LOGIN</PrimaryButton>
                     </View>
-                    <PrimaryButton>LOGIN</PrimaryButton>
-                </View>
-            </ImageBackground>
-        </View>
+                </ImageBackground>
+            </View>
+        </TouchableWithoutFeedback>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        height: Dimensions.get('screen').height
+        flex: 1
     },
     head: {
         paddingBottom: 10

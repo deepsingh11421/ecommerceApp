@@ -6,9 +6,9 @@ import ProductList from './screens/productList';
 
 export default function App() {
   return (
-    // <UserLogin />
+    <UserLogin />
     // <CategoryHome />
-    <ProductList />
+    // <ProductList />
   ); 
 }
 

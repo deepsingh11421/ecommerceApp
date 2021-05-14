@@ -2,36 +2,22 @@ import React from 'react';
 import {View,Text,StyleSheet, ScrollView, Image, TouchableOpacity} from 'react-native';
 const img = require('../assets/itemImages/sugar.jpg');
 
-export default categoryContainer = () => {
+export default categoryContainer = (props) => {
+    console.log(props.data);
+    var list = props.data.map(item => (
+        <TouchableOpacity activeOpacity={0.8} key={item.subcategory_id}>
+                        <View style={styles.itemCard}>
+                            <Image source={{uri: item.subcategory_img}} style={styles.image}/>
+                            <Text style={styles.itemCardText}>{item.name}</Text>
+                        </View>
+        </TouchableOpacity>
+    ))
     return(
         <View style={styles.container}>
-            <Text style={styles.heading}>फैशन</Text>
+            <Text style={styles.heading}>{props.data[0].category_name}</Text>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 <View style={styles.categoryItemCard}>
-                    <TouchableOpacity activeOpacity={0.8}>
-                        <View style={styles.itemCard}>
-                            <Image source={img} style={styles.image}/>
-                            <Text style={styles.itemCardText}>चीनी</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={0.8}>
-                        <View style={styles.itemCard}>
-                            <Image source={img} style={styles.image}/>
-                            <Text style={styles.itemCardText}>चीनी</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={0.8}>
-                        <View style={styles.itemCard}>
-                            <Image source={img} style={styles.image}/>
-                            <Text style={styles.itemCardText}>चीनी</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={0.8}>
-                        <View style={styles.itemCard}>
-                            <Image source={img} style={styles.image}/>
-                            <Text style={styles.itemCardText}>चीनी</Text>
-                        </View>
-                    </TouchableOpacity>
+                    {list}
                 </View>
             </ScrollView>
         </View>
@@ -57,11 +43,8 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     itemCard: {
-        // borderColor: 'grey',
-        // borderWidth: 1,
         height: 130,
         width: 100,
-        // padding: 10,
         marginRight: 10
     },
     itemCardText: {
